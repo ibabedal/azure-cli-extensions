@@ -4,6 +4,7 @@
 # --------------------------------------------------------------------------------------------
 
 from multiprocessing import Pool
+from datetime import datetime
 
 from knack.util import CLIError
 from knack.log import get_logger
@@ -59,6 +60,23 @@ def expand(cmd, resource_group_name, name, newsize, osdisk=True):
                     print('-----------------------')
                     print('Start with stopping the VM')
                     stop_cli_cmd = prepare_cli_command(['vm','stop','-n',name,'-g',resource_group_name])
+                    run_cli_command(stop_cli_cmd)
+                    print('VM now stopped, taking a snapshot of the OS disk before doing any changes and it will be with same resource group as disk ....')
+                    dateTimeObj = datetime.now()
+                    timestampStr = dateTimeObj.strftime('%d-%b-%Y')
+                    snapshot_name = name+'-snapshot-'+timestampStr
+                    snapshot_cli_cmd = prepare_cli_command(['snapshot','create','-g',disk_rg_name,'-n',snapshot_name,'--source',vm_os_disk_id])
+                    snapshot_cli_output = run_cli_command(snapshot_cli_cmd,return_as_json=True)
+                    print('We have created a snapshot named {0} in resource group {1}'.format(snapshot_cli_output['name'],snapshot_cli_output['resourceGroup']))
+                    print('Expanding disk now ...')
+                    #removing G from the new size value
+                    newsize = newsize[:-1]
+                    disk_expand_cli_cmd = prepare_cli_command(['disk','update','--ids',vm_os_disk_id,'--size-gb',newsize])
+                    disk_expand_output = run_cli_command(disk_expand_cli_cmd,return_as_json=True)
+                    print('Done expanding the disk , starting the VM now ....')
+                    vm_start_cli_cmd = prepare_cli_command(['vm','start','-n',name,'-g',resource_group_name])
+                    run_cli_command(vm_start_cli_cmd)
+                    print('VM started, executing the script for expanding disk from OS ...')
                     
 
 
