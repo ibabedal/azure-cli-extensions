@@ -165,3 +165,8 @@
 /src/communication/ @haroldrandom
 
 /src/automation/ @arrownj
+/src/azext_expand-disk/ @ibabedal
+/src/azext_expand_disk/ @ibabedal
+/src/azext_disk_increase/ @ibabedal
+/src/azext_expand_disk/ @ibabedal
+/src/azext_disk_expand/ @ibabedal
