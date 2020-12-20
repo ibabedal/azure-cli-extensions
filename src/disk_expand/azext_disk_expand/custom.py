@@ -77,7 +77,7 @@ def expand(cmd, resource_group_name, name, newsize, osdisk=True):
                     vm_start_cli_cmd = prepare_cli_command(['vm','start','-n',name,'-g',resource_group_name])
                     run_cli_command(vm_start_cli_cmd)
                     print('VM started, executing the script for expanding disk from OS ...')
-                    
+
 
 
 
@@ -85,10 +85,3 @@ def expand(cmd, resource_group_name, name, newsize, osdisk=True):
         print(e)
 
 
-        
-
-
-
-    #except Exception as e :
-    #    print(e)
-    #    raise CLIError('TODO: Implement `disk_expand create`')
