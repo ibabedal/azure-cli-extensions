@@ -5,7 +5,7 @@
 
 # pylint: disable=line-too-long
 from azure.cli.core.commands import CliCommandType
-from azext_disk_expand._client_factory import cf_disk_expand
+#from azext_disk_expand._client_factory import cf_disk_expand
 
 
 def load_command_table(self, _):
@@ -16,14 +16,14 @@ def load_command_table(self, _):
     #    client_factory=cf_disk_expand)
 
 
-    with self.command_group('disk_expand') as g:
-        g.custom_command('create', 'create_disk_expand')
+    with self.command_group('vm disk') as g:
+        g.custom_command('expand', 'expand')
         # g.command('delete', 'delete')
-        g.custom_command('list', 'list_disk_expand')
+        #g.custom_command('list', 'list_disk_expand')
         # g.show_command('show', 'get')
         # g.generic_update_command('update', setter_name='update', custom_func_name='update_disk_expand')
 
 
-    with self.command_group('disk_expand', is_preview=True):
-        pass
+    #with self.command_group('disk_expand', is_preview=True):
+    #    pass
 

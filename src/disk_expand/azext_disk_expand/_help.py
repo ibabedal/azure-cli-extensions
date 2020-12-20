@@ -7,19 +7,13 @@
 from knack.help_files import helps  # pylint: disable=unused-import
 
 
-helps['disk_expand'] = """
+helps['vm disk expand'] = """
     type: group
-    short-summary: Commands to manage Disk_expands.
-"""
-
-helps['disk_expand create'] = """
-    type: command
-    short-summary: Create a Disk_expand.
-"""
-
-helps['disk_expand list'] = """
-    type: command
-    short-summary: List Disk_expands.
+    short-summary: Use to expand disks attached to a Linux VM
+    examples:
+        - name: Expand OS disk for the VM
+          text: >
+            az vm disk expand --name myVM --resource-group myRG --os-disk --new-size 100G
 """
 
 # helps['disk_expand delete'] = """

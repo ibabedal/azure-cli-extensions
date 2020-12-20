@@ -14,8 +14,7 @@ class DiskexpandCommandsLoader(AzCommandsLoader):
         from azure.cli.core.commands import CliCommandType
         from azext_disk_expand._client_factory import cf_disk_expand
         disk_expand_custom = CliCommandType(
-            operations_tmpl='azext_disk_expand.custom#{}',
-            client_factory=cf_disk_expand)
+            operations_tmpl='azext_disk_expand.custom#{}')
         super(DiskexpandCommandsLoader, self).__init__(cli_ctx=cli_ctx,
                                                   custom_command_type=disk_expand_custom)
 
