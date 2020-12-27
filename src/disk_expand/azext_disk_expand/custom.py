@@ -84,13 +84,22 @@ def expand(cmd, resource_group_name, name, newsize, osdisk=True):
                         
                         disk_expand_cli_cmd = prepare_cli_command(['disk','update','--ids',vm_os_disk_id,'--size-gb',newsize])
                         disk_expand_output = run_cli_command(disk_expand_cli_cmd,return_as_json=True)
-                        print('Done expanding the disk , starting the VM now ....')
+                        print('Done expanding the disk from the platform, starting the VM now ....')
                         vm_start_cli_cmd = prepare_cli_command(['vm','start','-n',name,'-g',resource_group_name])
                         run_cli_command(vm_start_cli_cmd)
                         print('VM started, executing the script for expanding disk from OS ...')
 
                         #starting with CSE part, we will deploy test script for now.
-                        script_url = 'https://raw.githubusercontent.com/ibabedal/test/main/test.sh'
+                        #updated to have only SUSE ready script
+                        if vm_osName == "sles" or vm_osName == "suse":
+                            if "15" in vm_osVersion :
+                                script_url="https://raw.githubusercontent.com/ibabedal/disk_expand_scripts/main/suse15.sh"
+                            
+                            elif "12" in vm_osVersion :
+                                script_url = 'https://raw.githubusercontent.com/ibabedal/disk_expand_scripts/main/suse12.sh'
+                        else:
+                           script_url = 'https://raw.githubusercontent.com/ibabedal/test/main/test.sh'
+
                         command_to_execute = script_url.split('/')[-1]
                         protected_settings = '{ "fileUris" : [ "'+script_url+'" ] , "commandToExecute" : "./' +command_to_execute +'" }'
 
